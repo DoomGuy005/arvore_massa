@@ -2,7 +2,7 @@ public class NoArvore {
     private NoArvore pai;
     private NoArvore filhoEsquerdo;
     private NoArvore filhoDireito;
-    private final float valor;
+    private float valor;
 
     public NoArvore(float valor) {
         this.valor = valor;
@@ -24,6 +24,10 @@ public class NoArvore {
         return valor;
     }
 
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
     public void setFilhoDireito(NoArvore filhoDireito) {
         this.filhoDireito = filhoDireito;
     }
@@ -42,12 +46,13 @@ public class NoArvore {
 
     @Override
     public String toString() {
-        String texto = String.format("%f", this.valor);
+        String texto = "";
         if (!isEmpty(filhoEsquerdo)) {
-            texto = texto + "\nFilho esquerdo de " + String.format("%f", this.valor) + " = " + this.filhoEsquerdo.toString();
+            texto += this.filhoEsquerdo.toString();
         }
+        texto += String.format(" %f", this.valor);
         if (!isEmpty(filhoDireito)) {
-            texto = texto + "\nFilho direito de " + String.format("%f", this.valor) + " = " + this.filhoDireito.toString();
+            texto += this.filhoDireito.toString();
         }
         return texto;
     }

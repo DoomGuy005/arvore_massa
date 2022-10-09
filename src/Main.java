@@ -7,6 +7,7 @@ public class Main {
         arvore.inserir(11);
         arvore.inserir(16);
         arvore.inserir(17);
+        arvore.inserir(17);
         out.println(arvore);
     }
 }
