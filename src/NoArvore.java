@@ -44,13 +44,23 @@ public class NoArvore {
         return (no == null);
     }
 
+    public EnumFilhos temFilhos() {
+        if (this.filhoDireito == null && this.filhoEsquerdo == null) {
+            return EnumFilhos.NENHUM;
+        }
+        if (this.filhoDireito != null ^ this.filhoEsquerdo != null) {
+            return this.filhoDireito == null ? EnumFilhos.ESQUERDO : EnumFilhos.DIREITO;
+        }
+        return EnumFilhos.TODOS;
+    }
+
     @Override
     public String toString() {
         String texto = "";
         if (!isEmpty(filhoEsquerdo)) {
             texto += this.filhoEsquerdo.toString();
         }
-        texto += String.format(" %f", this.valor);
+        texto += String.format(" %.2f", this.valor);
         if (!isEmpty(filhoDireito)) {
             texto += this.filhoDireito.toString();
         }
