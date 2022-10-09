@@ -8,9 +8,13 @@ public class Main {
         arvore.inserir(16);
         arvore.inserir(9);
         arvore.inserir(9.5F);
+        arvore.inserir(9.4F);
+        arvore.inserir(9.6F);
         arvore.inserir(17);
         out.println(arvore);
         arvore.remover(10);
         out.println(arvore);
+        arvore.pesquisar(9f);
+        arvore.pesquisar(9.6f);
     }
 }
