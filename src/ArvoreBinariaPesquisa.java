@@ -21,6 +21,22 @@ public class ArvoreBinariaPesquisa {
         return no;
     }
 
+    public void pesquisar(float valor) {
+        NoArvore noAPesquisar = this.pesquisar(valor, this.raiz);
+        if (noAPesquisar != null) {
+            System.out.printf("Elemento: %.2f%n", noAPesquisar.getValor());
+            if (noAPesquisar.getFilhoDireito() != null) {
+                System.out.printf("Filho direito: %.2f%n", noAPesquisar.getFilhoDireito().getValor());
+            }
+            if (noAPesquisar.getFilhoEsquerdo() != null) {
+                System.out.printf("Filho esquerdo: %.2f%n", noAPesquisar.getFilhoEsquerdo().getValor());
+            }
+            if (noAPesquisar.getPai() != null) {
+                System.out.printf("Pai: %.2f%n", noAPesquisar.getPai().getValor());
+            }
+        }
+    }
+
     public NoArvore inserirRecursivo(float valor, NoArvore proximoNo, NoArvore pai) {
         if (proximoNo == null) {
             proximoNo = new NoArvore(valor);
@@ -58,16 +74,24 @@ public class ArvoreBinariaPesquisa {
         return null;
     }
 
-    public NoArvore remover(NoArvore noARemover, NoArvore noPai, float valor) {
+    public NoArvore maiorElementoDaEsquerda(NoArvore noAPesquisar) {
+        NoArvore noAux = noAPesquisar.getFilhoEsquerdo();
+        while (noAux.getFilhoDireito() != null) {
+            noAux = noAux.getFilhoDireito();
+        }
+        return noAux;
+    }
+
+    public NoArvore removerRecursivo(NoArvore noARemover, NoArvore noPai, float valor) {
         // procurando nó a ser removido
         if (noARemover == null) {
             return null;
         }
-        if (noARemover.getValor() > valor) {
-            return this.remover(noARemover.getFilhoDireito(), noARemover, valor);
-        }
         if (noARemover.getValor() < valor) {
-            return this.remover(noARemover.getFilhoEsquerdo(), noARemover, valor);
+            return this.removerRecursivo(noARemover.getFilhoDireito(), noARemover, valor);
+        }
+        if (noARemover.getValor() > valor) {
+            return this.removerRecursivo(noARemover.getFilhoEsquerdo(), noARemover, valor);
         }
 
         // nó foi encontrado
@@ -95,14 +119,24 @@ public class ArvoreBinariaPesquisa {
             }
 
             // 3º caso - nó com dois filhos
+            // 1º passo - vá para o filho direito
+            // 2º passo - busque pelo ultimo elemento a esquerda depois do filho direito
+            // 3º passo - substitua o valor do nó a ser removido pelo ultimo elemento
+            // 4º passo - remova o filho direito do pai do ultimo elemento
             if (noARemover.temFilhos() == EnumFilhos.TODOS) {
-                NoArvore noAux = this.menorElementoDaDireita(noARemover);
+                NoArvore noAux = this.maiorElementoDaEsquerda(noARemover);
                 noARemover.setValor(noAux.getValor());
-                noAux.setValor(valor);
-                this.remover(noARemover.getFilhoDireito(), noARemover, valor);
+                noAux.getPai().setFilhoDireito(null);
+                this.pesquisar(noARemover.getValor());
+                noAux = null;
+                this.removerRecursivo(noARemover.getFilhoDireito(), noARemover, valor);
             }
         }
         return null;
+    }
+
+    public NoArvore remover(float valor) {
+        return this.removerRecursivo(this.raiz, null, valor);
     }
 
     @Override
