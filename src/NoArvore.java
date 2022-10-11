@@ -56,7 +56,7 @@ public class NoArvore {
 		if (this.filhoEsquerdo != null) {
 			return EnumFilhos.ESQUERDO;
 		}
-		return EnumFilhos.TODOS;
+		return EnumFilhos.NENHUM;
 	}
 
 	@Override

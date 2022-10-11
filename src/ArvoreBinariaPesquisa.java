@@ -24,8 +24,12 @@ public class ArvoreBinariaPesquisa {
 
 	public void pesquisar(float valor) {
 		NoArvore noAPesquisar = this.pesquisar(valor, this.raiz);
+		System.out.printf("Pesquisando o valor %.2f na árvore...%n", valor);
 		if (noAPesquisar != null) {
+			System.out.print("Valor encontrado => ");
 			noAPesquisar.printNo();
+		} else {
+			System.out.print("Valor não encontrado!");
 		}
 	}
 
