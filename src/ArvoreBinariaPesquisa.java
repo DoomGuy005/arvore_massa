@@ -37,10 +37,10 @@ public class ArvoreBinariaPesquisa {
 		if (proximoNo == null) {
 			proximoNo = new NoArvore(valor);
 			proximoNo.setPai(pai);
-			if (proximoNo.getValor() > pai.getValor()) {
+			if (proximoNo.ehFilhoDireito()) {
 				pai.setFilhoDireito(proximoNo);
 			}
-			if (proximoNo.getValor() < pai.getValor()) {
+			else {
 				pai.setFilhoEsquerdo(proximoNo);
 			}
 			return proximoNo;
@@ -93,8 +93,8 @@ public class ArvoreBinariaPesquisa {
 		if (noARemover.getValor() == valor) {
 			System.out.println("\n>> encontrou");
 			// 1º caso - removendo nó folha
-			if (noARemover.temFilhos() == EnumFilhos.NENHUM) {
-				if (noPai.temFilhos() == EnumFilhos.DIREITO) {
+			if (noARemover.ehFolha()) {
+				if (noARemover.ehFilhoDireito()) {
 					noPai.setFilhoDireito(null);
 				} else {
 					noPai.setFilhoEsquerdo(null);
@@ -103,7 +103,7 @@ public class ArvoreBinariaPesquisa {
 			}
 
 			// 2º caso - removendo nó com um filho - verificando filho direito
-			if (noARemover.temFilhos() == EnumFilhos.DIREITO) {
+			if (noARemover.temFilhoDireito()) {
 				System.out.println("\n>> tem um filho direito");
 				noARemover.getFilhoDireito().setPai(noARemover.getPai());
 				if (noARemover == noPai.getFilhoDireito()) {
@@ -115,7 +115,7 @@ public class ArvoreBinariaPesquisa {
 			}
 
 			// 2º caso - removendo nó com um filho - verificando filho esquerdo
-			if (noARemover.temFilhos() == EnumFilhos.ESQUERDO) {
+			if (noARemover.temFilhoEsquerdo()) {
 				System.out.println("\n>> tem um filho esquerdo");
 				noARemover.getFilhoEsquerdo().setPai(noARemover.getPai());
 				if (noARemover == noPai.getFilhoDireito()) {
@@ -131,13 +131,8 @@ public class ArvoreBinariaPesquisa {
 			// 2º passo - busque pelo ultimo elemento a direita depois do filho esquerdo
 			// 3º passo - substitua o valor do nó a ser removido pelo ultimo elemento
 			// 4º passo - remova o filho direito do pai do ultimo elemento
-			if (noARemover.temFilhos() == EnumFilhos.TODOS) {
+			if (noARemover.temDoisFilhos()) {
 				System.out.println("\n>> tem dois filhos");
-				if (noARemover.getFilhoEsquerdo().temFilhos() == EnumFilhos.NENHUM) {
-					noARemover.setValor(noARemover.getFilhoEsquerdo().getValor());
-					noARemover.setFilhoEsquerdo(null);
-					return noARemover;
-				}
 				NoArvore noAux = this.maiorElementoDaEsquerda(noARemover);
 				noARemover.setValor(noAux.getValor());
 				noAux.getPai().setFilhoDireito(null);
@@ -148,7 +143,7 @@ public class ArvoreBinariaPesquisa {
 	}
 
 	public NoArvore remover(float valor) {
-		System.out.println(String.format("Valor a remover: %.2f", valor));
+		System.out.printf("Valor a remover: %.2f\n", valor);
 		return this.removerRecursivo(this.raiz, null, valor);
 	}
 

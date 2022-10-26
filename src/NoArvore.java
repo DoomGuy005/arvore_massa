@@ -59,6 +59,35 @@ public class NoArvore {
 		return EnumFilhos.NENHUM;
 	}
 
+	public boolean temFilhoDireito() {
+		return (
+				this.getFilhoDireito() != null
+				&& this.getFilhoEsquerdo() == null
+		);
+	}
+	public boolean temFilhoEsquerdo() {
+		return (
+				this.getFilhoDireito() == null
+				&& this.getFilhoEsquerdo() != null
+		);
+	}
+	public boolean temDoisFilhos() {
+		return (this.getFilhoDireito() != null && this.getFilhoEsquerdo() != null);
+	}
+
+	public boolean ehFolha() {
+		return (this.getFilhoDireito() == null && this.getFilhoEsquerdo() == null);
+	}
+
+	public boolean ehFilhoDireito() {
+		return this.getPai().getValor() < this.getValor();
+	}
+
+	public boolean ehFilhoEsquerdo() {
+		return this.getPai().getValor() > this.getValor();
+	}
+
+
 	@Override
 	public String toString() {
 		String texto = "";
